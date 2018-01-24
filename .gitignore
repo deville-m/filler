@@ -1,0 +1,7 @@
+a.out
+mdeville.filler
+*.o
+*.d
+libft.a
+main.c
+.syntastic_c_config
