@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   filler.h                                           :+:      :+:    :+:   */
+/*   place_piece.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/24 17:32:03 by mdeville          #+#    #+#             */
-/*   Updated: 2018/01/25 16:51:51 by mdeville         ###   ########.fr       */
+/*   Created: 2018/01/25 15:38:09 by mdeville          #+#    #+#             */
+/*   Updated: 2018/01/25 19:03:15 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLER_H
-# define FILLER_H
+#include "filler.h"
+#include "dlst.h"
+#include "ft_string.h"
+#include "ft_printf.h"
+#include "get_next_line.h"
 
-#include <unistd.h>
-
-typedef struct	s_block
+void	place_piece(int **board, size_t dimx, size_t dimy, int player)
 {
-	int x;
-	int y;
-}				t_block;
+	size_t	piecex;
+	size_t	piecey;
+	t_dlist	*piece;
 
-int		get_dim(size_t *dimx, size_t *dimy);
-void	del_board(int **board);
-int		**init_board(size_t *dimx, size_t *dimy);
-void	print_board(int fd, int **board, size_t dimx);
-void	place_piece(int **board, size_t dimx, size_t dimy, int player);
-
-#endif
+	if (!(piece = parse_piece(&piecex, &piecey)))
+		return ;
+}

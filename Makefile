@@ -1,6 +1,6 @@
 NAME = mdeville.filler
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra
 INCLUDES = -Iincludes/ -Ilibft/includes
 LDLIB = -Llibft/
 LDFLAGS = -lft
@@ -10,6 +10,7 @@ LIBDIR = libft
 
 SRC =	main.c \
 		board.c \
+		place_piece.c \
 		output.c
 
 SRC := $(addprefix $(SRCDIR), $(SRC))

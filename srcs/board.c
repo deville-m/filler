@@ -6,17 +6,18 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 15:55:43 by mdeville          #+#    #+#             */
-/*   Updated: 2018/01/24 17:48:21 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/01/25 16:50:13 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "ft_printf.h"
 #include "get_next_line.h"
 #include "conversion.h"
 #include "ft_ctype.h"
 #include "ft_string.h"
 
-static int	get_dim(size_t *dimx, size_t *dimy)
+int			get_dim(size_t *dimx, size_t *dimy)
 {
 	char *line;
 	char *tmp;
@@ -26,10 +27,10 @@ static int	get_dim(size_t *dimx, size_t *dimy)
 	tmp = line;
 	while (tmp && !ft_isdigit(*tmp))
 		++tmp;
-	*dimx = ft_atoi(tmp);
+	*dimy = ft_atoi(tmp);
 	while (tmp && ft_isdigit(*tmp))
 		++tmp;
-	*dimy = ft_atoi(tmp);
+	*dimx = ft_atoi(tmp);
 	free(line);
 	return (*dimx && *dimy);
 }
@@ -43,9 +44,9 @@ static int	parse_line(int **board, char *tmp, size_t i, size_t dimx)
 	{
 		if (tmp[j] == '.')
 			board[i][j] = 0;
-		else if (tmp[j] == 'O')
+		else if (tmp[j] == 'O' || tmp[j] == 'o')
 			board[i][j] = 1;
-		else if (tmp[j] == 'X')
+		else if (tmp[j] == 'X' || tmp[j] == 'x')
 			board[i][j] = 2;
 		else
 			return (0);
@@ -60,7 +61,7 @@ static int	parse_board(int **board, size_t dimx, size_t dimy)
 	size_t	i;
 
 	i = 0;
-	while (get_next_line(0, &line) == 1)
+	while (i < dimy && get_next_line(0, &line) == 1)
 	{
 		if (ft_strlen(line) < 5
 			|| !(board[i] = (int *)malloc(sizeof(int) * dimx))
