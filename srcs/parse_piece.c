@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:19:00 by mdeville          #+#    #+#             */
-/*   Updated: 2018/01/25 19:03:11 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/01/26 17:48:50 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,47 @@
 #include "get_next_line.h"
 #include "ft_printf.h"
 
-static int	parse_line(int i, int piecex, int piecey)
+static int	parse_line(char *line, t_dlist **piece, int i, int piecex)
 {
 	int		j;
-	t_block	tmp;
+	t_pos	tmp;
 
 	j = 0;
-	while (dimx)
+	while (line[j] && j < piecex)
 	{
 		if (line[j] == '*')
 		{
-			tmp = {}
-			ft_dlstappend(&piece, ft_dlstnew())
+			tmp.y = i;
+			tmp.x = j;
+			ft_dlstprepend(piece, ft_dlstnew(&tmp, sizeof(tmp)));
+		}
 		++j;
 	}
-	return (i == dimx);
+	return (j == piecex);
 }
 
-t_dlist	*parse_piece(size_t *piecex, size_t *piecey)
+t_dlist	*parse_piece(t_pos *origin)
 {
-	t_dlist	*piece;
-	char	*line;
-	int		i;
-	int		j;
+	t_dlist		*piece;
+	char		*line;
+	int			i;
 
-	if (!get_dim(piecex, piecey))
+	if (!get_dim(&origin->y, &origin->x))
 		return (NULL);
 	piece = NULL;
 	i = 0;
-	while (get_next_line(0, &line) == 1)
+	line = NULL;
+	while (i < origin->y && get_next_line(0, &line) == 1)
 	{
-		if (!parse_line(&piece, i++, piecex))
-			return (0);
+		if (!parse_line(line, &piece, i, origin->x))
+		{
+			ft_dlstdel(&piece, free_block);
+			return (NULL);
+		}
+		free(line);
+		i += 1;
 	}
-	return (i == dimy && y == dimx);
+	if (i != origin->y)
+		ft_dlstdel(&piece, free_block);
+	return (piece);
 }

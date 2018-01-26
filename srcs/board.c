@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 15:55:43 by mdeville          #+#    #+#             */
-/*   Updated: 2018/01/25 16:50:13 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/01/26 17:51:29 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ft_ctype.h"
 #include "ft_string.h"
 
-int			get_dim(size_t *dimx, size_t *dimy)
+int			get_dim(int *dimy, int *dimx)
 {
 	char *line;
 	char *tmp;
@@ -35,9 +35,9 @@ int			get_dim(size_t *dimx, size_t *dimy)
 	return (*dimx && *dimy);
 }
 
-static int	parse_line(int **board, char *tmp, size_t i, size_t dimx)
+static int	parse_line(int **board, char *tmp, int i, int dimx)
 {
-	size_t j;
+	int j;
 
 	j = 0;
 	while (tmp[j])
@@ -55,10 +55,10 @@ static int	parse_line(int **board, char *tmp, size_t i, size_t dimx)
 	return(j == dimx);
 }
 
-static int	parse_board(int **board, size_t dimx, size_t dimy)
+static int	parse_board(int **board, int dimx, int dimy)
 {
 	char	*line;
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i < dimy && get_next_line(0, &line) == 1)
@@ -78,7 +78,7 @@ static int	parse_board(int **board, size_t dimx, size_t dimy)
 
 void	del_board(int	**board)
 {
-	size_t i;
+	int i;
 
 	i = 0;
 	while (board[i])
@@ -89,13 +89,13 @@ void	del_board(int	**board)
 	free(board);
 }
 
-int		**init_board(size_t *dimx, size_t *dimy)
+int		**init_board(int *dimx, int *dimy)
 {
 	int		**board;
 	char	*line;
-	size_t	i;
+	int	i;
 
-	if (!get_dim(dimx, dimy)
+	if (!get_dim(dimy, dimx)
 		|| !(board = (int **)malloc(sizeof(int *) * (*dimy + 1))))
 		return (NULL);
 	get_next_line(0, &line);

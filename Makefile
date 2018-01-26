@@ -1,7 +1,7 @@
 NAME = mdeville.filler
 CC = gcc
 CFLAGS = -Wall -Wextra
-INCLUDES = -Iincludes/ -Ilibft/includes
+INCLUDES = -Iincludes/ -Ilibft/includes -fsanitize=address
 LDLIB = -Llibft/
 LDFLAGS = -lft
 SRCDIR= srcs/
@@ -11,6 +11,8 @@ LIBDIR = libft
 SRC =	main.c \
 		board.c \
 		place_piece.c \
+		free_block.c \
+		parse_piece.c \
 		output.c
 
 SRC := $(addprefix $(SRCDIR), $(SRC))
