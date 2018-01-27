@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 15:38:09 by mdeville          #+#    #+#             */
-/*   Updated: 2018/01/26 18:44:04 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/01/27 21:29:03 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ft_printf.h"
 #include "get_next_line.h"
 
-int		can_place(t_board b, t_dlist *piece, t_pos curr, int p)
+static int	can_place(t_board b, t_dlist *piece, t_pos curr, int p)
 {
 	int connection;
 
@@ -39,37 +39,77 @@ int		can_place(t_board b, t_dlist *piece, t_pos curr, int p)
 	return (connection);
 }
 
-t_pos	calc_min(t_board b, t_dlist *piece, t_pos curr, int player)
+static int	ft_sqrt(int val)
 {
-	static t_pos	minpos = {0, 0};
-	static int		min = INT_MAX;
+	int i;
 
-	if (!piece)
-		return (minpos);
+	i = 0;
+	while (i * i < val)
+		++i;
+	return (i);
 }
 
-void	place_piece(t_board b, int player)
+static int	get_min(t_pos tmppos, t_dlist *piece, t_pos curr)
 {
-	t_pos	minpos;
-	t_pos	origin;
-	t_pos	curr;
-	t_dlist	*piece;
+	int		tmpx;
+	int		tmpy;
+	t_pos	tmp;
 
-	if (!(piece = parse_piece(&origin)))
-		return ;
+	tmp.x = POS(piece)->x + curr.x;
+	tmp.y = POS(piece)->y + curr.y;
+	tmpx = (tmp.x - tmppos.x) * (tmp.x - tmppos.x);
+	tmpy = (tmp.y - tmppos.y) * (tmp.y - tmppos.y);
+	return (ft_sqrt(tmpx + tmpy));
+}
+
+static int	get_dist(t_board b, t_dlist *piece, t_pos curr, int opponent)
+{
+	int		d;
+	int		min;
+	t_pos	tmp;
+
+	tmp.y = 0;
+	min = INT_MAX;
+	while (tmp.y < b.dimy)
+	{
+		tmp.x = 0;
+		while (tmp.x < b.dimx)
+		{
+			if (b.board[tmp.y][tmp.x] == opponent
+			&& (d = get_min(tmp, piece, curr)) < min)
+				min = d;
+			++tmp.x;
+		}
+		++tmp.y;
+	}
+	return (min);
+}
+
+void		place_piece(t_board b, t_dlist *piece, t_pos origin, int player)
+{
+	int		tmp;
+	int		min;
+	t_pos	minpos;
+	t_pos	curr;
+
+	min = INT_MAX;
+	minpos.x = 0;
+	minpos.y = 0;
 	curr.y = -origin.y;
 	while (curr.y < b.dimy)
 	{
 		curr.x = -origin.x;
 		while (curr.x < b.dimx)
 		{
-			if (can_place(b, piece, curr, player))
-				calc_min(b, piece, curr, player);
+			if (can_place(b, piece, curr, player)
+			&& (tmp = get_dist(b, piece, curr, (player == 1) ? 2 : 1)) < min)
+			{
+				minpos = curr;
+				min = tmp;
+			}
 			++curr.x;
 		}
 		++curr.y;
 	}
-	minpos = calc_min(b, NULL, curr, player);
-	ft_dlstdel(&piece, free_block);
 	ft_printf("%d %d\n", minpos.y, minpos.x);
 }

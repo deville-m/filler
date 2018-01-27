@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 15:55:43 by mdeville          #+#    #+#             */
-/*   Updated: 2018/01/26 17:51:29 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/01/27 21:26:53 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ static int	parse_line(int **board, char *tmp, int i, int dimx)
 			return (0);
 		++j;
 	}
-	return(j == dimx);
+	return (j == dimx);
 }
 
 static int	parse_board(int **board, int dimx, int dimy)
 {
 	char	*line;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (i < dimy && get_next_line(0, &line) == 1)
@@ -76,7 +76,7 @@ static int	parse_board(int **board, int dimx, int dimy)
 	return (i == dimy);
 }
 
-void	del_board(int	**board)
+void		del_board(int **board)
 {
 	int i;
 
@@ -89,11 +89,11 @@ void	del_board(int	**board)
 	free(board);
 }
 
-int		**init_board(int *dimx, int *dimy)
+int			**init_board(int *dimx, int *dimy)
 {
 	int		**board;
 	char	*line;
-	int	i;
+	int		i;
 
 	if (!get_dim(dimy, dimx)
 		|| !(board = (int **)malloc(sizeof(int *) * (*dimy + 1))))

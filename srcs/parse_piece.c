@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:19:00 by mdeville          #+#    #+#             */
-/*   Updated: 2018/01/26 17:48:50 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/01/27 21:25:58 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	parse_line(char *line, t_dlist **piece, int i, int piecex)
 	return (j == piecex);
 }
 
-t_dlist	*parse_piece(t_pos *origin)
+t_dlist		*parse_piece(t_pos *origin)
 {
 	t_dlist		*piece;
 	char		*line;
