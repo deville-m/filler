@@ -1,7 +1,7 @@
 NAME = mdeville.filler
 CC = gcc
-CFLAGS = -Wall -Wextra
-INCLUDES = -Iincludes/ -Ilibft/includes -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
+INCLUDES = -Iincludes/ -Ilibft/includes
 LDLIB = -Llibft/
 LDFLAGS = -lft
 SRCDIR= srcs/
